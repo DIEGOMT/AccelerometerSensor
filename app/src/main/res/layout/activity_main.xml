@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/textView_y"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_x"
+        android:layout_below="@+id/textView_x"
+        android:text="y:"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_z"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView_y"
+        android:layout_below="@+id/textView_y"
+        android:text="z:"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_x"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="x:"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_toi"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="106dp"
+        android:fontFamily="sans-serif"
+        android:text="FORWARD"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_lui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_phai"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:text="BACKWARD"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_trai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView_toi"
+        android:layout_marginStart="199dp"
+        android:layout_marginTop="-106dp"
+        android:fontFamily="sans-serif"
+        android:text="LEFT"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_phai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_toi"
+        android:layout_marginTop="-106dp"
+        android:layout_toStartOf="@+id/textView_y"
+        android:fontFamily="sans-serif"
+        android:text="RIGHT"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_off"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_on"
+        android:text="OFF"
+        android:textAllCaps="false"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_on"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="130dp"
+        android:text="ON"
+        android:textAllCaps="false"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:text="Bluetooth"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_listDevices"
+        android:layout_width="218dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_z"
+        android:layout_toEndOf="@+id/button_listen"
+        android:text="list devices"
+        android:textSize="12sp" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="297dp"
+        android:layout_height="123dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="94dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/textView_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="67dp"
+        android:text="N/A"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="Status:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView_msg_box"
+        android:layout_width="288dp"
+        android:layout_height="123dp"
+        android:layout_alignTop="@+id/listView"
+        android:layout_marginEnd="-237dp"
+        android:layout_toStartOf="@+id/textView_phai"
+        android:background="@android:color/darker_gray"
+        android:fontFamily="monospace"
+        android:text="Message show here"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button_listen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_z"
+        android:layout_alignParentStart="true"
+        android:text="listen" />
+
+    <EditText
+        android:id="@+id/editText_type"
+        android:layout_width="295dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView_trai"
+        android:ems="10"
+        android:hint="Type message here"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="send" />
+
+</RelativeLayout>
