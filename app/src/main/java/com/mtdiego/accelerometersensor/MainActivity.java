@@ -33,15 +33,18 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.net.ssl.SSLEngine;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     private Sensor CamBienGiaToc;
     private SensorManager sensorManager;
-    private Button bON, bOFF, bListDevices, bListen, send;
+    private Button bON, bOFF, bListDevices, bListen, send, bON2, bOFF2;
     private TextView tx,ty,tz, ttoi, tlui, ttrai, tphai, status, msg_box;
     private ListView listView;
     private EditText writeMsg;
     private float x,y,z;
+    private int SEND_DATA = 0;
 
     public BluetoothAdapter myBluetoothAdapter;
     public Intent enablingIntent;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     ArrayAdapter<String> arrayAdapter;
     BluetoothDevice[] btArray;
     SendReceive sendReceive;
+    int t=0;
 
     static final int STATE_LISTENING = 1;
     static final int STATE_CONNECTING=2;
@@ -65,13 +69,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Tao Sensor Manager
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        // Lay Cam bien gia toc
-        CamBienGiaToc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        // Dang ky su dung Sensor
-        sensorManager.registerListener(this, CamBienGiaToc, SensorManager.SENSOR_DELAY_NORMAL);
 
         tx          = findViewById(R.id.textView_x);
         ty          = findViewById(R.id.textView_y);
@@ -90,9 +87,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         bListen     = findViewById(R.id.button_listen);
         send        = findViewById(R.id.button_send);
         writeMsg    = findViewById(R.id.editText_type);
+        bON2        = findViewById(R.id.button_on2);
+        bOFF2       = findViewById(R.id.button_off2);
 
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         enablingIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+        // Tao Sensor Manager
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        // Lay Cam bien gia toc
+        CamBienGiaToc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        // Dang ky su dung Sensor
+        sensorManager.registerListener(this, CamBienGiaToc, SensorManager.SENSOR_DELAY_NORMAL);
 
         //-------------------------------------------------------------------------
         bluetoothONMethod();
@@ -146,8 +152,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 sendReceive.write(string.getBytes());
             }
         });
+
+        bON2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                t = 1;
+            }
+        });
+        bOFF2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                t = 0;
+            }
+        });
     }
 
+    //------------------------------
     @Override
     public void onSensorChanged(SensorEvent event) {
         x = event.values[0];
@@ -158,33 +178,48 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         ty.setText("y: " + y);
         tz.setText("z: " + z);
 
+        Control();
+    }
+
+    public void Control(){
         Resources res = getResources();
         int color_red = res.getColor(R.color.Red);
         int color_gray= res.getColor(R.color.Gray);
+
+        boolean sendable = false;
+        if (myBluetoothAdapter.isEnabled() && status.getText().equals("Connected") && t == 1) sendable=true;
 
         if(z > 8 && (z > 3 && y > -2 && y < 4)) {
             ttoi.setTextColor(color_red);
             tlui.setTextColor(color_gray);
             ttrai.setTextColor(color_gray);
             tphai.setTextColor(color_gray);
+
+            if (sendable) sendReceive.write("Forward".getBytes());
         }
         if(z < 3 && (z < 8 && y > -2 && y < 4)) {
             tlui.setTextColor(color_red);
             ttoi.setTextColor(color_gray);
             ttrai.setTextColor(color_gray);
             tphai.setTextColor(color_gray);
+
+            if (sendable)sendReceive.write("Backward".getBytes());
         }
         if(y < -2&& (z < 8 && z > 3  && y < 4)){
             ttrai.setTextColor(color_red);
             ttoi.setTextColor(color_gray);
             tlui.setTextColor(color_gray);
             tphai.setTextColor(color_gray);
+
+            if (sendable)sendReceive.write("Left".getBytes());
         }
         if(y > 4 && (z < 8 && z > 3  && y >-2)) {
             tphai.setTextColor(color_red);
             ttoi.setTextColor(color_gray);
             tlui.setTextColor(color_gray);
             ttrai.setTextColor(color_gray);
+
+            if (sendable) sendReceive.write("Right".getBytes());
         }
         //---
         if((z > 8 && y < -2) && (z >= 3 && y <= 4)){
@@ -192,29 +227,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             ttrai.setTextColor(color_red);
             tlui.setTextColor(color_gray);
             tphai.setTextColor(color_gray);
+
+            if (sendable) sendReceive.write("Forward + Left".getBytes());
         }
         if((z >8 && y > 4) && (z >= 3 && y >=-2)){
             ttoi.setTextColor(color_red);
             tphai.setTextColor(color_red);
             tlui.setTextColor(color_gray);
             ttrai.setTextColor(color_gray);
+
+            if (sendable) sendReceive.write("Forward + Right".getBytes());
         }
         if((z < 3 && y < -2) && (z <= 8 && y <=4)){
             tlui.setTextColor(color_red);
             ttrai.setTextColor(color_red);
             ttoi.setTextColor(color_gray);
             tphai.setTextColor(color_gray);
+
+            if (sendable) sendReceive.write("Backward + Left".getBytes());
         }
         if((z < 3 && y > 4) && (z <= 8 && y >=-2)){
             tlui.setTextColor(color_red);
             tphai.setTextColor(color_red);
             ttoi.setTextColor(color_gray);
             ttrai.setTextColor(color_gray);
+
+            if (sendable) sendReceive.write("Backward + Right".getBytes());
         }
     }
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
     //-----------------------------------------------------------------------------
+
 
 
     @Override
